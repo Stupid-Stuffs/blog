@@ -84,4 +84,12 @@ module.exports = withBundleAnalyzer({
 
     return config
   },
+  async rewrites() {
+    return [
+      {
+        source: '/@:username',
+        destination: '/user/:username'
+      }
+    ]
+  }
 })
