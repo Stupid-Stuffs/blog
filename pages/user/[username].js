@@ -70,7 +70,7 @@ export default function Profile({ authorDetails }) {
 
         <div className="divide-y mt-8 divide-gray-200 dark:divide-gray-700"></div>
 
-
+        abc
       </div>
     </>
   )
