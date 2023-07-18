@@ -87,9 +87,13 @@ module.exports = withBundleAnalyzer({
   async rewrites() {
     return [
       {
+        source: '/home',
+        destination: '/',
+      },
+      {
         source: '/@:username',
-        destination: '/user/:username'
-      }
+        destination: '/user/:username',
+      },
     ]
-  }
+  },
 })

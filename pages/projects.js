@@ -2,6 +2,7 @@ import siteMetadata from '@/data/siteMetadata'
 import projectsData from '@/data/projectsData'
 import Card from '@/components/Card'
 import { PageSEO } from '@/components/SEO'
+import MainLayout from '@/layouts/MainLayout'
 
 export default function Projects() {
   return (
@@ -33,3 +34,5 @@ export default function Projects() {
     </>
   )
 }
+
+Projects.Layout = MainLayout

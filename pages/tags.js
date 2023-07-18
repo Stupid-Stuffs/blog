@@ -2,6 +2,7 @@ import Link from '@/components/Link'
 import { PageSEO } from '@/components/SEO'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
+import MainLayout from '@/layouts/MainLayout'
 import { getAllTags } from '@/lib/tags'
 import kebabCase from '@/lib/utils/kebabCase'
 
@@ -42,3 +43,5 @@ export default function Tags({ tags }) {
     </>
   )
 }
+
+Tags.Layout = MainLayout

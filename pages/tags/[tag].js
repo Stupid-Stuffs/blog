@@ -1,6 +1,7 @@
 import { TagSEO } from '@/components/SEO'
 import siteMetadata from '@/data/siteMetadata'
 import ListLayout from '@/layouts/ListLayout'
+import MainLayout from '@/layouts/MainLayout'
 import generateRss from '@/lib/generate-rss'
 import { getAllFilesFrontMatter } from '@/lib/mdx'
 import { getAllTags } from '@/lib/tags'
@@ -53,3 +54,5 @@ export default function Tag({ posts, tag }) {
     </>
   )
 }
+
+Tag.Layout = MainLayout

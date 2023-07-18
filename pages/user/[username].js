@@ -1,35 +1,54 @@
-import Image from '@/components/Image';
-import { PageSEO } from '@/components/SEO';
-import SocialIcon from '@/components/social-icons';
+import Image from '@/components/Image'
+import { PageSEO } from '@/components/SEO'
+import SocialIcon from '@/components/social-icons'
+import MainLayout from '@/layouts/MainLayout'
 
 export async function getServerSideProps(context) {
-  const { username } = context.params;
-  console.log(username)
+  const users = [
+    {
+      fullname: 'Le Viet Hoang',
+      username: 'hashdotlee',
+      occupation: 'Bán vé số',
+      company: 'Công ty TNHH Gầu Cầm',
+      avatar: '/static/images/avatar.png',
+      email: 'aaa@gmail.com',
+      github: 'aaa',
+      twitter: 'bbb',
+      linkedin: 'cc',
+      joinedDate: 'Nov, 2022',
+      location: 'Vietnam',
+      bio: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    },
+  ]
+
+  const { username } = context.params
+
+  const user = users.find((user) => user.username === username)
+
+  if (!user) return { notFound: true }
+
   return {
     props: {
-      
-    }
+      frontMatter: user,
+    },
   }
 }
 
-export default function Profile({ authorDetails }) {
-  const frontMatter = {
-    fullname: "Le Viet Hoang",
-    username: "hashdotlee",
-    occupation: "Bán vé số",
-    company: "Công ty TNHH Gầu Cầm",
-    avatar: "/static/images/avatar.png",
-    email: "aaa@gmail.com",
-    github: "aaa",
-    twitter: "bbb",
-    linkedin: "cc",
-    github: "dd",
-    joinedDate: "Nov, 2022",
-    location: "Vietnam",
-    bio: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-  }
-
-  const { fullname, username, avatar, occupation, company, email, twitter, linkedin, github, bio } = frontMatter
+export default function Profile({ frontMatter }) {
+  const {
+    fullname,
+    username,
+    avatar,
+    occupation,
+    company,
+    email,
+    twitter,
+    linkedin,
+    github,
+    bio,
+    joinedDate,
+    location,
+  } = frontMatter
 
   return (
     <>
@@ -53,8 +72,8 @@ export default function Profile({ authorDetails }) {
             <p>@{username}</p>
             <div className="text-gray-500 dark:text-gray-400">{occupation}</div>
             <div className="text-gray-500 dark:text-gray-400">{company}</div>
-            <div>Member since {frontMatter.joinedDate}</div>
-            <div>Location: {frontMatter.location}</div>
+            <div>Member since {joinedDate}</div>
+            <div>Location: {location}</div>
             <div className="flex space-x-3 pt-6">
               <SocialIcon kind="mail" href={`mailto:${email}`} />
               <SocialIcon kind="github" href={github} />
@@ -68,10 +87,10 @@ export default function Profile({ authorDetails }) {
           </div>
         </div>
 
-        <div className="divide-y mt-8 divide-gray-200 dark:divide-gray-700"></div>
-
-        abc
+        <div className="mt-8 divide-y divide-gray-200 dark:divide-gray-700"></div>
       </div>
     </>
   )
 }
+
+Profile.Layout = MainLayout

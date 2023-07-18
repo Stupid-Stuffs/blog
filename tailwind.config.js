@@ -14,6 +14,27 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
+    screens: {
+      'max-2xl': { max: '1535px' },
+
+      'max-xl': { max: '1279px' },
+
+      'max-lg': { max: '1023px' },
+
+      'max-md': { max: '767px' },
+
+      'max-sm': { max: '639px' },
+
+      sm: '640px',
+
+      md: '768px',
+
+      lg: '1024px',
+
+      xl: '1280px',
+
+      '2xl': '1536px',
+    },
     extend: {
       spacing: {
         '9/16': '56.25%',
@@ -28,7 +49,7 @@ module.exports = {
         sans: ['InterVariable', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        primary: colors.teal,
+        primary: colors.yellow,
         gray: colors.neutral,
       },
       typography: (theme) => ({
@@ -38,7 +59,7 @@ module.exports = {
             a: {
               color: theme('colors.primary.500'),
               '&:hover': {
-                color: `${theme('colors.primary.600')} !important`,
+                color: `${theme('colors.primary.400')} !important`,
               },
               code: { color: theme('colors.primary.400') },
             },

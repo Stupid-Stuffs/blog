@@ -4,9 +4,9 @@ import siteMetadata from '@/data/siteMetadata'
 
 export default function FourZeroFour() {
   return (
-    <>
+    <div className="flex h-screen w-full items-center">
       <PageSEO title={`Page Not Found - ${siteMetadata.title}`} />
-      <div className="flex flex-col items-start justify-start md:mt-24 md:flex-row md:items-center md:justify-center md:space-x-6">
+      <div className="flex w-full flex-col items-center justify-center md:flex-row md:items-center md:justify-center md:space-x-6">
         <div className="space-x-2 pt-6 pb-8 md:space-y-5">
           <h1 className="text-6xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 md:border-r-2 md:px-6 md:text-8xl md:leading-14">
             404
@@ -26,6 +26,6 @@ export default function FourZeroFour() {
           </Link>
         </div>
       </div>
-    </>
+    </div>
   )
 }
