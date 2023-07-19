@@ -2,7 +2,7 @@ import Avatar from '@/components/Avatar'
 import AvatarIcon from '@/components/AvatarIcon'
 import DropdownMenu from '@/components/DropdownMenu'
 import { signOut } from 'next-auth/react'
-import Link from 'next/link'
+import Link from '@/components/Link'
 import { IoLogOutOutline } from 'react-icons/io5'
 
 export default function UserDropdownMenu({ session }) {
@@ -56,7 +56,7 @@ function MemberMenuView({ session }) {
       <div className="divide-y overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800">
         <div className="flex flex-col">
           <Link href={'/me'} passHref>
-            <div className="flex-start mt-2 mb-2 flex cursor-pointer flex-row gap-3 rounded-sm pt-2 pb-2 pl-4 pr-4 hover:bg-yellow-900">
+            <div className="flex-start mt-2 mb-2 flex cursor-pointer flex-row gap-3 rounded-sm pt-2 pb-2 pl-4 pr-4 hover:bg-gray-100 dark:hover:bg-yellow-900">
               <div>
                 <Avatar imageSrc={avatarUrl} title={email} width={48} height={48} />
               </div>

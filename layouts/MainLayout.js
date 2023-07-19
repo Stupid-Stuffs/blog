@@ -58,10 +58,12 @@ export default function MainLayout({ children }) {
               <button>
                 <BsSearch fontSize={20} />
               </button>
-              <button className="inline-flex items-center rounded-3xl border-2 border-gray-800 bg-primary-300 py-2 px-4 font-bold text-gray-800 hover:bg-primary-400 dark:border-primary-700 dark:bg-primary-400">
-                <PiPencilSimpleLineLight fontSize={20} style={{ marginRight: '6px' }} />
-                <span>Write</span>
-              </button>
+              <Link href={'/write'}>
+                <div className="inline-flex items-center rounded-3xl border-2 border-gray-800 bg-primary-300 py-2 px-4 font-bold text-gray-800 hover:bg-primary-400 dark:border-primary-700 dark:bg-primary-400">
+                  <PiPencilSimpleLineLight fontSize={20} style={{ marginRight: '6px' }} />
+                  <span>Write</span>
+                </div>
+              </Link>
               <button>
                 <IoIosNotificationsOutline fontSize={28} />
               </button>
