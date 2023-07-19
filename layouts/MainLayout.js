@@ -10,7 +10,6 @@ import { useSession } from 'next-auth/react'
 import { BsSearch } from 'react-icons/bs'
 import { IoIosNotificationsOutline } from 'react-icons/io'
 import { PiPencilSimpleLineLight } from 'react-icons/pi'
-import GuestDropdownMenu from './components/GuestDropdownMenu'
 import UserDropdownMenu from './components/UserDropdownMenu'
 
 export default function MainLayout({ children }) {
@@ -66,11 +65,7 @@ export default function MainLayout({ children }) {
               <button>
                 <IoIosNotificationsOutline fontSize={28} />
               </button>
-              {session && session?.user ? (
-                <UserDropdownMenu session={session} />
-              ) : (
-                <GuestDropdownMenu />
-              )}
+              <UserDropdownMenu session={session} />
             </div>
           </div>
         </header>

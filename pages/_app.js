@@ -1,7 +1,6 @@
 import '@/css/prism.css'
 import '@/css/tailwind.css'
 import '@fontsource/inter/variable-full.css'
-import 'katex/dist/katex.css'
 
 import siteMetadata from '@/data/siteMetadata'
 import { SessionProvider } from 'next-auth/react'

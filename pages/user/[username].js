@@ -1,6 +1,6 @@
 import Image from '@/components/Image'
 import { PageSEO } from '@/components/SEO'
-import SocialIcon from '@/components/social-icons'
+import SocialIcon from '@/components/SocialIcon'
 import MainLayout from '@/layouts/MainLayout'
 
 export async function getServerSideProps(context) {
