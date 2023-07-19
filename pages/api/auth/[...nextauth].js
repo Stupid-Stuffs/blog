@@ -10,6 +10,6 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    async signIn() {},
+    // async signIn() { return true },
   },
 })

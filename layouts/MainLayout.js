@@ -6,12 +6,16 @@ import SectionContainer from '@/components/SectionContainer'
 import ThemeSwitch from '@/components/ThemeSwitch'
 import headerNavLinks from '@/data/headerNavLinks'
 import siteMetadata from '@/data/siteMetadata'
+import { useSession } from 'next-auth/react'
 import { BsSearch } from 'react-icons/bs'
 import { IoIosNotificationsOutline } from 'react-icons/io'
 import { PiPencilSimpleLineLight } from 'react-icons/pi'
-import UserDropDownMenu from './components/UserDropDownMenu'
+import GuestDropdownMenu from './components/GuestDropdownMenu'
+import UserDropdownMenu from './components/UserDropdownMenu'
 
 export default function MainLayout({ children }) {
+  const { data: session } = useSession()
+
   return (
     <SectionContainer>
       <div className="flex h-screen flex-col justify-between">
@@ -49,20 +53,24 @@ export default function MainLayout({ children }) {
 
               <div className="mr-6 inline-block h-[32px] min-h-[1em] bg-gray-500 pr-[1.2px] dark:bg-gray-300"></div>
             </div>
-            <div className="flex gap-4">
+            <div className="flex items-center gap-4">
               <ThemeSwitch />
 
               <button>
                 <BsSearch fontSize={20} />
               </button>
-              <button className="inline-flex items-center rounded-3xl border-2 border-gray-500 bg-primary-300 py-2 px-4 font-bold text-gray-800 hover:bg-primary-400">
+              <button className="inline-flex items-center rounded-3xl border-2 border-gray-800 bg-primary-300 py-2 px-4 font-bold text-gray-800 hover:bg-primary-400 dark:border-primary-700 dark:bg-primary-400">
                 <PiPencilSimpleLineLight fontSize={20} style={{ marginRight: '6px' }} />
                 <span>Write</span>
               </button>
               <button>
                 <IoIosNotificationsOutline fontSize={28} />
               </button>
-              <UserDropDownMenu />
+              {session && session?.user ? (
+                <UserDropdownMenu session={session} />
+              ) : (
+                <GuestDropdownMenu />
+              )}
             </div>
           </div>
         </header>

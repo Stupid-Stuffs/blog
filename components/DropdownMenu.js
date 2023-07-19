@@ -6,7 +6,9 @@ export default function DropdownMenu({ children, button }) {
     <Popover className="relative">
       {() => (
         <>
-          <Popover.Button>{button}</Popover.Button>
+          <Popover.Button className="focus:rounded-full focus:outline-none focus:ring focus:ring-primary-200 dark:focus:ring-primary-600">
+            {button}
+          </Popover.Button>
           <Transition
             as={Fragment}
             enter="transition ease-out duration-200"
