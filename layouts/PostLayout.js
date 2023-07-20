@@ -8,7 +8,7 @@ import siteMetadata from '@/data/siteMetadata'
 import Comments from '@/components/comments'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import api from '@/lib/axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { getTokenFromLocalStorage } from '@/lib/token'
 
@@ -133,7 +133,7 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, chi
                                 {` • `}
                                 <Link href={editUrl(fileName)}>{'View on GitHub'}</Link>
                             </div>
-                            {token ? <Comments frontMatter={frontMatter} /> : <div className='py-3'>You have to login to comment</div>}
+                            <Comments slug={slug} /> <div className='py-3'></div>
                         </div>
                         <footer>
                             <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">

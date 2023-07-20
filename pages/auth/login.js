@@ -44,7 +44,7 @@ export default function Login() {
         return (
             <div className='w-full h-full flex items-center justify-center'>
                 <p>You have logged in!</p>
-                <button onClick={() => signOut({ callbackUrl: '/home' })}>Sign out</button>
+                <button onClick={() => signOut({ callbackUrl: '/' })}>Sign out</button>
             </div>
         )
     }
