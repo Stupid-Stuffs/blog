@@ -20,7 +20,7 @@ const Comments = ({ slug }) => {
 
     const commentBlog = (content) => {
         api
-            .post(`/api/${slug}/comment`, {
+            .post(`/api/blog/${slug}/comment`, {
                 content,
             })
             .then(() => setTriggerComment(!triggerComment))
@@ -44,25 +44,32 @@ const Comments = ({ slug }) => {
             })
             .catch((e) => toast.error(e))
     }
-    console.log(triggerComment);
+    console.log(triggerComment)
 
     return (
         <div id="comment" className="prose">
             <div className="prose-headings:h2 my-3 font-semibold">💬 Post Comment</div>
-            <textarea
-                className="w-full rounded-md border border-gray-300 shadow-lg"
-                rows={4}
-                placeholder="✍️ Write your comment"
-                value={comment}
-                onChange={(e) => setComment(e.currentTarget.value)}
-            />
-            <button
-                onClick={commentBlog(comment)}
-                className="my-2 w-full rounded-md bg-primary-200 px-4 py-2 font-semibold text-gray-600"
-            >
-                Post
-            </button>
+            {token ? (
+                <>
+                    <textarea
+                        className="w-full rounded-md border border-gray-300 shadow-lg"
+                        rows={4}
+                        placeholder="✍️ Write your comment"
+                        value={comment}
+                        onChange={(e) => setComment(e.currentTarget.value)}
+                    />
+                    <button
+                        onClick={() => commentBlog(comment)}
+                        className="my-2 w-full rounded-md bg-primary-200 px-4 py-2 font-semibold text-gray-600"
+                    >
+                        Post
+                    </button>
+                </>
+            ) : (
+                <span>😕 You have to login to use this feature</span>
+            )}
             <div>
+                <div className='text-lg font-semibold my-3'>Comments</div>
                 {comments.map((item) => {
                     const { num_likes, liked, comment_id } = item
                     return (
