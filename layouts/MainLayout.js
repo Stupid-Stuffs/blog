@@ -4,16 +4,15 @@ import Link from '@/components/Link'
 import MobileNav from '@/components/MobileNav'
 import SectionContainer from '@/components/SectionContainer'
 import ThemeSwitch from '@/components/ThemeSwitch'
-import headerNavLinks from '@/data/headerNavLinks'
 import siteMetadata from '@/data/siteMetadata'
-import { BsSearch } from 'react-icons/bs'
-import { IoIosNotificationsOutline } from 'react-icons/io'
 import { PiPencilSimpleLineLight } from 'react-icons/pi'
 import UserDropDownMenu from './components/UserDropDownMenu'
 import { getTokenFromLocalStorage } from '@/lib/token'
+import { useSession } from 'next-auth/react'
 
 export default function MainLayout({ children }) {
   const token = getTokenFromLocalStorage()
+  const { data: session } = useSession()
   return (
     <SectionContainer>
       <div className="flex h-screen flex-col justify-between">
@@ -36,27 +35,10 @@ export default function MainLayout({ children }) {
             </Link>
           </div>
           <div className="flex items-center text-base leading-5">
-            <div className="hidden md:flex md:items-center md:gap-3">
-              <div>
-                {headerNavLinks.map((link) => (
-                  <Link
-                    key={link.title}
-                    href={link.href}
-                    className="p-1 font-medium text-gray-900 dark:text-gray-100 md:p-4"
-                  >
-                    {link.title}
-                  </Link>
-                ))}
-              </div>
-
-              <div className="mr-6 inline-block h-[32px] min-h-[1em] bg-gray-500 pr-[1.2px] dark:bg-gray-300"></div>
-            </div>
+            <div className="hidden md:flex md:items-center md:gap-3"></div>
             <div className="flex gap-4">
               <ThemeSwitch />
 
-              <button>
-                <BsSearch fontSize={20} />
-              </button>
               {token && (
                 <Link
                   href={'/user/write'}
@@ -66,10 +48,7 @@ export default function MainLayout({ children }) {
                   <span>Write</span>
                 </Link>
               )}
-              <button>
-                <IoIosNotificationsOutline fontSize={28} />
-              </button>
-              <UserDropDownMenu />
+              <UserDropDownMenu session={session} />
             </div>
           </div>
         </header>

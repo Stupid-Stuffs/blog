@@ -7,7 +7,7 @@ import jwt_decode from 'jwt-decode'
 
 export default function UserDropdownMenu({ session }) {
   const token = getTokenFromLocalStorage()
-  if ((session && session?.user) || token) return <MemberMenuView session={session} />
+  if ((session && session?.user) || token) return <MemberMenuView session={session} token={token} />
   return <GuestMenuView />
 }
 
@@ -47,13 +47,13 @@ function GuestMenuView() {
 }
 
 function MemberMenuView({ session, token }) {
-  const decoded = token ? jwt_decode(token) : { username: '' }
+  const decoded = token ? jwt_decode(token) : { username: '', email: '@' }
   return (
     <DropdownMenu button={<AvatarIcon className="fill-gray-500 dark:fill-gray-400" />}>
       <div className="divide-y overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800">
         {session && session?.user ? (
           <div className="flex flex-col">
-            <Link href={'/me'} passHref>
+            <Link href={'#'} passHref>
               <div className="flex-start mt-2 mb-2 flex cursor-pointer flex-row gap-3 rounded-sm pt-2 pb-2 pl-4 pr-4 hover:bg-gray-100 dark:hover:bg-yellow-900">
                 <div>
                   <Avatar
@@ -76,7 +76,7 @@ function MemberMenuView({ session, token }) {
           <div className="p-4">
             <span className="flex items-center justify-center">
               <span className="text-xl font-bold text-gray-900 dark:text-primary-200">
-                Hello! {decoded.username}
+                Hello! {decoded?.username || decoded?.email.split('@')[0]}
               </span>
             </span>
           </div>

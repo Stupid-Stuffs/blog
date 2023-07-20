@@ -1,15 +1,18 @@
 import api from '@/lib/axios'
 import { getTokenFromLocalStorage } from '@/lib/token'
+import jwtDecode from 'jwt-decode'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
-const Comments = ({ slug }) => {
+const Comments = ({ slug, author }) => {
     const [comment, setComment] = useState('')
 
     const [comments, setComments] = useState([])
     const [triggerComment, setTriggerComment] = useState(false)
 
     const token = getTokenFromLocalStorage()
+
+    const decoded = token ? jwtDecode(token) : { username: '', email: '' }
 
     useEffect(() => {
         const fetchComment = () => {
@@ -33,7 +36,7 @@ const Comments = ({ slug }) => {
             .then((res) => {
                 setTriggerComment(!triggerComment)
             })
-            .catch((e) => toast.error(e))
+            .catch((e) => toast.error(String(e)))
     }
 
     const unlikeComment = (id) => {
@@ -42,9 +45,18 @@ const Comments = ({ slug }) => {
             .then((res) => {
                 setTriggerComment(!triggerComment)
             })
-            .catch((e) => toast.error(e))
+            .catch((e) => toast.error(String(e)))
     }
-    console.log(triggerComment)
+
+    const deleteComment = (id) => {
+        api
+            .delete(`/api/blog/comment/${id}`)
+            .then(() => {
+                toast.success('Deleted!')
+                setTriggerComment(!triggerComment)
+            })
+            .catch((e) => toast.error(String(e)))
+    }
 
     return (
         <div id="comment" className="prose">
@@ -69,7 +81,7 @@ const Comments = ({ slug }) => {
                 <span>😕 You have to login to use this feature</span>
             )}
             <div>
-                <div className='text-lg font-semibold my-3'>Comments</div>
+                <div className="my-3 text-lg font-semibold">Comments</div>
                 {comments.map((item) => {
                     const { num_likes, liked, comment_id } = item
                     return (
@@ -78,7 +90,7 @@ const Comments = ({ slug }) => {
                                 {item.content}
                             </div>
                             {token ? (
-                                <div>
+                                <div className="flex justify-between">
                                     <button
                                         onClick={() => {
                                             if (liked) unlikeComment(comment_id)
@@ -88,10 +100,14 @@ const Comments = ({ slug }) => {
                                     >
                                         {liked ? '👍' : '👍🏻'}
                                         <span className="text-sm">
-                                            {liked ? 'You and' : ''} {num_likes > 0 ? `${num_likes} people` : ''} like
-                                            this{' '}
+                                            {liked ? 'You and' : ''}{' '}
+                                            {num_likes > 0 ? `${num_likes - (liked ? 1 : 0)} people` : ''} like this{' '}
                                         </span>
                                     </button>
+                                    {decoded &&
+                                        (decoded.user === author.username || decoded.email === author.email) && (
+                                            <button onClick={() => deleteComment(comment_id)} className="text-sm text-rose-500">Delete</button>
+                                        )}
                                 </div>
                             ) : (
                                 <span className="inline-block w-full py-1 text-sm">
