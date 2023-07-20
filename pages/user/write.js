@@ -5,6 +5,7 @@ import api from '@/lib/axios'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
 import { getTokenFromLocalStorage } from '@/lib/token'
+import FileUploader from '@/components/UploadFile'
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor').then((mod) => mod.default), {
     ssr: false,
@@ -16,22 +17,47 @@ export default function WriteBlog() {
     const [title, setTitle] = useState('')
     const [summary, setSummary] = useState('')
     const [tags, setTags] = useState('')
+    const [image, setImage] = useState('')
+    const [audio, setAudio] = useState('')
+    const [video, setVideo] = useState('')
 
     const router = useRouter()
 
     const onPublish = () => {
+        const content = `
+
+            ${value}
+
+           ![${image}](${image}) 
+
+            <audio controls="controls">
+            <source type="audio/mp3" src="${audio}"></source>
+            <p>Your browser does not support the audio element.</p>
+            </audio>
+
+            <video controls="controls">
+            <source type="video/mp4" src="${video}"></source>
+            <source type="video/webm" src="${video}"></source>
+            <p>Your browser does not support the video element.</p>
+            </video>
+
+            `
         api
-            .post('/api/blog', {
-                slug,
-                title,
-                summary,
-                tags: tags.split(',').map((item) => ({ name: item })),
-                content: value,
-            }, {
-                headers: {
-                    "Authorization": `Bearer ${getTokenFromLocalStorage()}`
+            .post(
+                '/api/blog',
+                {
+                    slug,
+                    title,
+                    summary,
+                    tags: tags.split(',').map((item) => ({ name: item })),
+                    content: content,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+                    },
                 }
-            })
+            )
             .then(() => {
                 toast.success('Success! You can view your blog now')
                 router.push('/')
@@ -94,6 +120,18 @@ export default function WriteBlog() {
                                 setTags(e.currentTarget.value)
                             }}
                         />
+                    </div>
+                    <div className="my-2 flex w-full flex-col gap-2">
+                        <label>Upload image</label>
+                        <FileUploader onFinish={(link) => setImage(link)} />
+                    </div>
+                    <div className="my-2 flex w-full flex-col gap-2">
+                        <label>Upload audio</label>
+                        <FileUploader onFinish={(link) => setAudio(link)} />
+                    </div>
+                    <div className="my-2 flex w-full flex-col gap-2">
+                        <label>Upload video</label>
+                        <FileUploader onFinish={(link) => setVideo(link)} />
                     </div>
                 </div>
                 <div>
