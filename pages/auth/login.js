@@ -1,11 +1,28 @@
 import CoolEmoji from '@/components/CoolEmoji'
+import api from '@/lib/axios'
+import { setTokenToLocalStorage } from '@/lib/token'
 import { signIn, signOut, useSession } from 'next-auth/react'
-import Link from '@/components/Link'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
+import { toast } from 'react-toastify'
 
 export default function Login() {
   const { data: session } = useSession()
-  console.log(session)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const router = useRouter()
+  const onSuccess = (res) => {
+    toast.success('Success')
+    setTokenToLocalStorage(res.data.jwt)
+    router.push('/')
+  }
+
+  const onFailed = (err) => {
+    toast.error('Something went wrong! Please check the error: ' + String(err))
+  }
 
   if (session && session?.user) {
     return (
@@ -31,21 +48,31 @@ export default function Login() {
               <form
                 className="space-y-4 md:space-y-6"
                 href="#"
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  api
+                    .post('/auth/login', {
+                      username,
+                      password,
+                    })
+                    .then((res) => onSuccess(res))
+                    .catch((e) => onFailed(e))
+                }}
               >
                 <div>
                   <label
-                    htmlFor="email"
+                    htmlFor="username"
                     className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Your email
+                    Username
                   </label>
                   <input
-                    type="email"
-                    name="email"
-                    id="email"
+                    name="username"
+                    id="username"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                    placeholder="name@company.com"
+                    value={username}
+                    onChange={(e) => setUsername(e.currentTarget.value)}
+                    placeholder="username"
                     required=""
                   />
                 </div>
@@ -60,6 +87,8 @@ export default function Login() {
                     type="password"
                     name="password"
                     id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.currentTarget.value)}
                     placeholder="••••••••"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
                     required=""
@@ -96,6 +125,11 @@ export default function Login() {
                   Sign in
                 </button>
               </form>
+              <Link href="/auth/register">
+                <a className="text-md block w-full rounded-lg bg-gray-300 px-4 py-2.5 text-center font-medium text-white hover:bg-gray-400 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                  Register
+                </a>
+              </Link>
 
               <GoogleButton />
             </div>
@@ -121,7 +155,7 @@ function GoogleButton() {
   return (
     <button
       onClick={() => signIn('google', { callbackUrl: '/home' })}
-      className="flex flex w-full justify-center gap-4 gap-2 rounded-lg border border-gray-300 px-4 py-2 font-semibold text-slate-700 transition  duration-150 hover:border-slate-400 hover:text-slate-900 hover:shadow dark:text-slate-300"
+      className="flex w-full justify-center gap-2 rounded-lg border border-gray-300 px-4 py-2 font-semibold text-slate-700 transition  duration-150 hover:border-slate-400 hover:text-slate-900 hover:shadow dark:text-slate-300"
     >
       <FcGoogle fontSize={24} />
       <span>Sign in with Google</span>

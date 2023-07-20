@@ -1,3 +1,6 @@
+import api from '@/lib/axios'
+import { setTokenToLocalStorage } from '@/lib/token'
+import { read } from 'gray-matter'
 import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 
@@ -12,4 +15,5 @@ export default NextAuth({
   callbacks: {
     // async signIn() { return true },
   },
+  debug: true,
 })
