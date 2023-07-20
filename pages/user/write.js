@@ -24,24 +24,32 @@ export default function WriteBlog() {
     const router = useRouter()
 
     const onPublish = () => {
-        const content = `
-
-            ${value}
-
+        let content = value
+        if (image)
+            content += `
+        
            ![${image}](${image}) 
+
+        `
+        if (audio)
+            content += `
 
             <audio controls="controls">
             <source type="audio/mp3" src="${audio}"></source>
             <p>Your browser does not support the audio element.</p>
             </audio>
 
-            <video controls="controls">
+        `
+        if (video)
+            content += `
+
+            <video controls>
             <source type="video/mp4" src="${video}"></source>
             <source type="video/webm" src="${video}"></source>
             <p>Your browser does not support the video element.</p>
             </video>
 
-            `
+        `
         api
             .post(
                 '/api/blog',
