@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 export default function Logout() {
     useEffect(() => {
         setTokenToLocalStorage('')
-        signOut({ callbackUrl: '/' })
+        signOut({ callbackUrl: '/home' })
     }, [])
     return <div></div>
 }

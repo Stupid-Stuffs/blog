@@ -1,6 +1,6 @@
 const siteMetadata = {
   title: 'Blogster',
-  author: 'Le Viet Hoang',
+  author: 'Le Viet Hoang - Cao Tien Trung - Nguyen Dinh Duy',
   headerTitle: 'Blogster',
   description: 'A project made for Web Information System course',
   language: 'en-us',
