@@ -9,7 +9,7 @@ export async function getServerSideProps({ params }) {
   const blog = await fetch(`${process.env.API_URL}/api/blog/${slug}`).then((res) => res.json())
   const blog_content = await bundleMDX({ source: blog.content })
   const frontMatter = { ...blog }
-  const authorDetails = []
+  const authorDetails = [{ name: blog?.user?.username || blog?.user?.email }]
   const post = blog_content.code
 
   return { props: { post, frontMatter, authorDetails } }
